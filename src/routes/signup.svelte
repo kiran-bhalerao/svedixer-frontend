@@ -7,14 +7,18 @@
 
   let email = '';
   let password = '';
+  let confirm_password = '';
 
   async function onSubmit() {
     const response = await tsFetch<{ access_token: string }>({
       url: `${apiPrefix}/sign_in`,
       method: 'POST',
       body: {
-        email,
-        password
+        user: {
+          email,
+          password,
+          confirm_password
+        }
       }
     });
 
@@ -28,7 +32,7 @@
 
 <div class="h-full flex flex-col justify-center">
   <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-    Sign in to your account
+    Sign up account
   </h2>
 
   <form
@@ -61,6 +65,18 @@
           required
           class="login-input"
           placeholder="Password"
+        />
+      </div>
+      <div>
+        <label for="c_password" class="sr-only">Confirm Password</label>
+        <input
+          bind:value={confirm_password}
+          id="c_password"
+          name="c_password"
+          type="password"
+          required
+          class="login-input"
+          placeholder="Confirm Password"
         />
       </div>
     </div>

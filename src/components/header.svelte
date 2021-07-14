@@ -1,3 +1,15 @@
+<script lang="ts">
+  import Cookies from 'js-cookie';
+  import { useSession } from 'src/session';
+
+  const session = useSession();
+
+  const onSignout = () => {
+    session.update(() => ({ user: { email: '', userId: '' } }));
+    Cookies.remove('access_token');
+  };
+</script>
+
 <header class="relative bg-white">
   <div class="container px-4 sm:px-6">
     <div
@@ -39,18 +51,29 @@
         </button>
       </div>
       <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-        <a
-          href="/login"
-          class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
-        >
-          Sign in
-        </a>
-        <a
-          href="/signup"
-          class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-        >
-          Sign up
-        </a>
+        {#if !$session.user.email}
+          <a
+            href="/login"
+            class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+          >
+            Sign in
+          </a>
+          <a
+            href="/signup"
+            class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+          >
+            Sign up
+          </a>
+        {/if}
+        {#if $session.user.email}
+          <a
+            href="/login"
+            class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+            on:click|preventDefault={onSignout}
+          >
+            Sign out
+          </a>
+        {/if}
       </div>
     </div>
   </div>

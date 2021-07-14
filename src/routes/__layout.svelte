@@ -8,10 +8,10 @@
   <slot />
 </div>
 
-<style lang="scss">
+<style lang="postcss">
   .slot-container {
     @apply container mx-auto px-4;
 
-    height: calc(100vh - 6rem);
+    height: calc(100vh - 8rem);
   }
 </style>

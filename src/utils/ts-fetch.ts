@@ -5,6 +5,7 @@ type methods = 'post' | 'get' | 'delete' | 'put';
 interface tsFetchArgs extends RequestInit {
   url: string;
   method: methods | `${Uppercase<methods>}`;
+  body?: any;
 }
 
 export async function tsFetch<R extends any = any>(args: tsFetchArgs) {
@@ -16,7 +17,7 @@ export async function tsFetch<R extends any = any>(args: tsFetchArgs) {
       'Content-Type': 'application/json',
       ...headers
     },
-    ...(body && { body: JSON.stringify({ body }) }),
+    ...(body && { body: JSON.stringify({ ...body }) }),
     ...rest
   });
 
